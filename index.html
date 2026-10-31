@@ -42,9 +42,7 @@ body {
   background-repeat: no-repeat;
 }
 
-#bgTint {
-  display: none;
-}
+#bgTint { display: none; }
 
 header {
   position: relative;
@@ -64,8 +62,6 @@ header {
   width: 85px;
   height: 85px;
   object-fit: contain;
-
-  /* Thin circular border */
   border: 2px solid #ddf1f7;
   border-radius: 50%;
   padding: 4px;
@@ -73,9 +69,7 @@ header {
 }
 
 @media (max-width: 600px) {
-  header {
-    padding: 16px 75px;
-  }
+  header { padding: 16px 75px; }
 
   .header-logo {
     width: 55px;
@@ -97,8 +91,7 @@ header {
   outline: none;
 }
 
-#pageTitle:focus,
-.qtitle:focus {
+#pageTitle:focus, .qtitle:focus {
   border-color: #999;
   background: #ffffffaa;
   border-radius: 6px;
@@ -149,9 +142,10 @@ button { font: inherit; cursor: pointer; }
 }
 
 .dark { background: #171717; color: white; }
-.maroon { background: var(--maroon); color: white; }
+.maroon { background: var(--maroon); color: #171717; }
 .blue { background: #2563eb; color: #ffffff; }
 .blue:hover { background: #1d4ed8; }
+.red { background: #b91c1c; color: white; }
 
 .light, .iconbtn {
   background: #eee;
@@ -204,7 +198,7 @@ button { font: inherit; cursor: pointer; }
   overflow-wrap: anywhere;
 }
 
-/* QUADRAT COLLECTION */
+/* QUADRATS */
 
 .workspace-head {
   display: flex;
@@ -227,6 +221,18 @@ button { font: inherit; cursor: pointer; }
 .qcard {
   min-width: 0;
   padding: 10px;
+  cursor: grab;
+}
+
+.qcard:active { cursor: grabbing; }
+
+.qcard.dragging {
+  opacity: .4;
+  outline: 2px dashed #2563eb;
+}
+
+.qcard.drag-over {
+  outline: 2px solid #2563eb;
 }
 
 .qcard-head {
@@ -316,6 +322,91 @@ button { font: inherit; cursor: pointer; }
   margin-top: 7px;
 }
 
+/* TABLE */
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 8px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: #ffffffb8;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #ccc;
+  padding: 7px;
+  text-align: center;
+}
+
+.data-table th {
+  background: #d4f5f2;
+  font-weight: 800;
+}
+
+.data-table td:first-child {
+  text-align: left;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 5px;
+}
+
+.view-toggle button.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* SUMMARY AND CALCULATOR */
+
+.summary-panel {
+  margin-top: 16px;
+}
+
+.summary-panel h2 { margin-bottom: 10px; }
+
+.summary-total {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.calculator-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: #ffffffb8;
+}
+
+.calculator-table th, .calculator-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.calculator-table th {
+  background: #d4f5f2;
+}
+
+.calculator-table td:first-child { text-align: left; }
+
+.bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #2563eb;
+}
+
 /* BACKGROUND SETTINGS */
 
 .settings { margin-top: 16px; }
@@ -350,7 +441,7 @@ button { font: inherit; cursor: pointer; }
   font: inherit;
 }
 
-/* POP-UP EDITOR */
+/* MODAL */
 
 .modalback {
   position: fixed;
@@ -383,7 +474,6 @@ button { font: inherit; cursor: pointer; }
 }
 
 .modalhead h2 { margin: 0; }
-
 .modalbody { padding: 16px 17px; }
 
 .modalfoot {
@@ -478,29 +568,26 @@ button { font: inherit; cursor: pointer; }
 <img id="bgTint" alt="Custom background">
 
 <header>
-  <input
-    id="pageTitle"
+  <input id="pageTitle"
     value="HERE NINYO IBUTANG INYO TITLE GUYS IF WHAT GROUP"
     aria-label="Editable page title"
-    title="Click to edit the title"
-  >
+    title="Click to edit the title">
 
   <div class="subtitle">
     AMBOT LANG WAMAN GUY WEBSITE NA IN-ANI SO I MADE THIS KAY KAPOY PUD BIYA?
   </div>
 
-  <a href="https://www.facebook.com/profile.php?id=61580090608023" target="_blank" rel="noopener noreferrer">
+  <a href="https://www.facebook.com/profile.php?id=61580090608023"
+     target="_blank" rel="noopener noreferrer">
     <img src="sisidmodified.png" alt="Project Logo" class="header-logo">
-</a>
+  </a>
 </header>
 
 <main>
   <div class="layout">
 
-    <!-- LEFT: LEGENDS -->
     <aside class="panel">
       <h2>LEGENDS:</h2>
-
       <div id="legendList" class="legend-list"></div>
 
       <div class="actions">
@@ -514,25 +601,39 @@ button { font: inherit; cursor: pointer; }
       </p>
     </aside>
 
-    <!-- RIGHT: QUADRATS -->
     <section>
       <div class="workspace-head">
         <h2>Quadrats</h2>
 
         <div class="actions" style="margin:0">
-          <button id="addQuadrat" class="btn blue">
-            ＋ Add Quadrat
-          </button>
-
-          <button id="downloadAll" class="btn dark" title="Download all quadrats">
-            ⤓ Download PNG
-          </button>
+          <button id="addQuadrat" class="btn blue">＋ Add Quadrat</button>
+          <button id="downloadAll" class="btn dark">⤓ Download PNG</button>
+          <button id="resetAll" class="btn red">↻ Reset All</button>
         </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:12px">
+        <div class="workspace-head" style="margin:0">
+          <strong style="font-size:13px">Display View</strong>
+          <div class="view-toggle">
+            <button id="gridView" class="btn light active">Grid</button>
+            <button id="tableView" class="btn light">Table</button>
+          </div>
+        </div>
+        <p class="hint">Drag quadrat cards to rearrange them. Switch between grid and table view.</p>
       </div>
 
       <div id="quadratList" class="quadrat-list"></div>
 
-      <!-- BACKGROUND CUSTOMIZATION -->
+      <div class="panel summary-panel">
+        <h2>Species Summary & Relative Abundance</h2>
+        <div id="speciesSummary"></div>
+        <p class="hint">
+          Relative abundance = (individuals of a species ÷ total individuals) × 100.
+          Counts are based on all recorded quadrats.
+        </p>
+      </div>
+
       <div class="panel settings">
         <h2>Background Customization</h2>
 
@@ -547,9 +648,7 @@ button { font: inherit; cursor: pointer; }
             <input id="blur" type="range" min="0" max="35" value="18">
           </div>
 
-          <button id="resetBg" class="btn light">
-            Reset Background
-          </button>
+          <button id="resetBg" class="btn light">Reset Background</button>
         </div>
 
         <p class="hint">
@@ -561,10 +660,8 @@ button { font: inherit; cursor: pointer; }
   </div>
 </main>
 
-<!-- EDITOR POP-UP -->
 <div id="modalback" class="modalback" role="dialog" aria-modal="true">
   <div class="modal">
-
     <div class="modalhead">
       <h2 id="modalTitle">Edit</h2>
       <button id="close" class="iconbtn">✕</button>
@@ -576,25 +673,18 @@ button { font: inherit; cursor: pointer; }
       <button id="cancel" class="btn light">Cancel</button>
       <button id="save" class="btn maroon">Save Changes</button>
     </div>
-
   </div>
 </div>
 
 <script>
 (() => {
+  const STORAGE_KEY = 'quadratRecorderMulti';
+
   const shapes = [
-    ['circle', '●'],
-    ['square', '■'],
-    ['triangle', '▲'],
-    ['diamond', '◆'],
-    ['star', '★'],
-    ['cross', '✚'],
-    ['hexagon', '⬢'],
-    ['plus', '＋'],
-    ['dot', '•'],
-    ['wave', '≈'],
-    ['heart', '♥'],
-    ['ring', '○']
+    ['circle', '●'], ['square', '■'], ['triangle', '▲'],
+    ['diamond', '◆'], ['star', '★'], ['cross', '✚'],
+    ['hexagon', '⬢'], ['plus', '＋'], ['dot', '•'],
+    ['wave', '≈'], ['heart', '♥'], ['ring', '○']
   ];
 
   const colors = [
@@ -603,16 +693,18 @@ button { font: inherit; cursor: pointer; }
     '#667085', '#222222'
   ];
 
-  let legends = [
+  const defaultLegends = () => [
     { id: 1, name: 'Species 1', shape: 'circle', color: colors[0] },
     { id: 2, name: 'Species 2', shape: 'square', color: colors[1] },
     { id: 3, name: 'Species 3', shape: 'triangle', color: colors[2] }
   ];
 
-  let quadrats = [
+  const defaultQuadrats = () => [
     { id: 1, name: 'QUADRAT 10', rows: 4, cols: 3, cells: {} }
   ];
 
+  let legends = defaultLegends();
+  let quadrats = defaultQuadrats();
   let nextQid = 2;
   let nextSpeciesId = 4;
   let mode = '';
@@ -620,16 +712,15 @@ button { font: inherit; cursor: pointer; }
   let activeQid = 1;
   let activeCell = 0;
   let bgData = '';
+  let viewMode = 'grid';
+  let draggedQid = null;
 
   const $ = id => document.getElementById(id);
 
   const esc = value =>
     String(value ?? '').replace(/[&<>"']/g, char => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
+      '&': '&amp;', '<': '&lt;', '>': '&gt;',
+      '"': '&quot;', "'": '&#39;'
     })[char]);
 
   const symbol = shape =>
@@ -643,14 +734,11 @@ button { font: inherit; cursor: pointer; }
 
   function save() {
     try {
-      localStorage.setItem('quadratRecorderMulti', JSON.stringify({
-        legends,
-        quadrats,
-        nextQid,
-        nextSpeciesId,
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        legends, quadrats, nextQid, nextSpeciesId,
         title: $('pageTitle').value,
         blur: $('blur').value,
-        bgData
+        bgData, viewMode
       }));
     } catch (error) {
       console.warn('Could not save data in this browser.', error);
@@ -659,16 +747,12 @@ button { font: inherit; cursor: pointer; }
 
   function load() {
     try {
-      const data = JSON.parse(
-        localStorage.getItem('quadratRecorderMulti') || 'null'
-      );
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
 
       if (data) {
         if (Array.isArray(data.legends)) legends = data.legends;
-
-        if (Array.isArray(data.quadrats) && data.quadrats.length) {
+        if (Array.isArray(data.quadrats) && data.quadrats.length)
           quadrats = data.quadrats;
-        }
 
         nextQid = data.nextQid ||
           Math.max(0, ...quadrats.map(q => q.id)) + 1;
@@ -677,23 +761,51 @@ button { font: inherit; cursor: pointer; }
           Math.max(0, ...legends.map(s => s.id)) + 1;
 
         if (data.title) $('pageTitle').value = data.title;
-        if (data.blur) $('blur').value = data.blur;
+        if (data.blur !== undefined) $('blur').value = data.blur;
 
         bgData = data.bgData || '';
+        viewMode = data.viewMode || 'grid';
       }
     } catch (error) {
       console.warn('Saved data could not be loaded.', error);
     }
 
     applyBg();
+    updateViewButtons();
+  }
+
+  function resetAll() {
+    if (!confirm(
+      'Reset everything? This will delete all quadrats, species, recorded data, and your custom background. This cannot be undone.'
+    )) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    legends = defaultLegends();
+    quadrats = defaultQuadrats();
+    nextQid = 2;
+    nextSpeciesId = 4;
+    bgData = '';
+    viewMode = 'grid';
+
+    $('pageTitle').value =
+      'HERE NINYO IBUTANG INYO TITLE GUYS IF WHAT GROUP';
+
+    $('blur').value = 18;
+    $('bgUpload').value = '';
+
+    applyBg();
+    updateViewButtons();
+    renderLegends();
+    renderQuadrats();
+    save();
   }
 
   /* BACKGROUND */
 
   function applyBg() {
     document.documentElement.style.setProperty(
-      '--blur',
-      $('blur').value + 'px'
+      '--blur', $('blur').value + 'px'
     );
 
     if (bgData) {
@@ -702,14 +814,98 @@ button { font: inherit; cursor: pointer; }
       $('bg').style.background = 'transparent';
     } else {
       $('bgTint').style.display = 'none';
-
-      // Restore the hardcoded background when no custom image is uploaded.
-      $('bg').style.background =
-        'url("C:\Users\Vina\Downloads\sisid.jpg") center / cover no-repeat';
+      $('bg').style.backgroundImage =
+        'url("https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/536267431_122095908285003020_7298162863685620520_n.jpg?stp=dst-jpg_tt6&cstp=mx959x960&ctp=s959x960&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFYHmEIFpfXV-J70wOYKOF1Ca0YjjO8iEMJrRiOM7yIQ_mOc-Vj70jXpIbgVCJv_cOTJRNLnpDIqOsbvrsqJ4LQ&_nc_ohc=6bfuT_v0XQsQ7kNvwFS7Gmp&_nc_oc=Adqv6aS_vo6T_J745UWeLP6M1SeGNzIbK0fennHztHpm56QFnoaJP6vAzrX2VLgDcwo&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=La8p_tdP-MsAaeOkI6ml_Q&_nc_ss=7b2a8&oh=00_AQR_aQmIsB47SUSDgSQodxtaSVJUHSWWd2xn-fdEjVAWDQ&oe=6AE7791F")';
+      $('bg').style.backgroundPosition = 'center';
+      $('bg').style.backgroundSize = 'cover';
+      $('bg').style.backgroundRepeat = 'no-repeat';
     }
   }
 
-  /* LEGENDS DISPLAY */
+  /* TOTAL INDIVIDUALS */
+
+  function speciesTotals() {
+    const totals = {};
+
+    legends.forEach(species => {
+      totals[species.id] = 0;
+    });
+
+    quadrats.forEach(q => {
+      Object.values(q.cells || {}).forEach(records => {
+        records.forEach(record => {
+          if (totals[record.legendId] !== undefined) {
+            totals[record.legendId] += Math.max(
+              0, Number(record.count) || 0
+            );
+          }
+        });
+      });
+    });
+
+    return totals;
+  }
+
+  function renderSummary() {
+    const totals = speciesTotals();
+    const grandTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+
+    $('speciesSummary').innerHTML = `
+      <div class="summary-total">
+        Total individuals recorded: ${grandTotal}
+      </div>
+
+      <div class="table-wrap">
+        <table class="calculator-table">
+          <thead>
+            <tr>
+              <th>Species</th>
+              <th>Individuals</th>
+              <th>Relative Abundance</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${legends.map(species => {
+              const count = totals[species.id] || 0;
+              const percentage = grandTotal
+                ? count / grandTotal * 100
+                : 0;
+
+              return `
+                <tr>
+                  <td>
+                    <span style="color:${esc(species.color)}">
+                      ${symbol(species.shape)}
+                    </span>
+                    ${esc(species.name)}
+                  </td>
+                  <td>${count}</td>
+                  <td>
+                    <div class="bar">
+                      <div class="bar-fill"
+                        style="width:${percentage}%"></div>
+                    </div>
+                  </td>
+                  <td>${percentage.toFixed(2)}%</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Total</th>
+              <th>${grandTotal}</th>
+              <th></th>
+              <th>${grandTotal ? '100.00%' : '0.00%'}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    `;
+  }
+
+  /* LEGENDS */
 
   function renderLegends() {
     $('legendList').innerHTML = legends.length
@@ -718,9 +914,7 @@ button { font: inherit; cursor: pointer; }
             <span class="legend-symbol" style="color:${esc(item.color)}">
               ${symbol(item.shape)}
             </span>
-
             <span class="legend-name">${esc(item.name)}</span>
-
             <button class="iconbtn" data-edit="${item.id}"
               title="Edit species">✎</button>
           </div>
@@ -732,28 +926,22 @@ button { font: inherit; cursor: pointer; }
     });
   }
 
-  /* QUADRAT DISPLAY */
+  /* GRID / TABLE VIEW */
 
   function renderQuadrats() {
     $('quadratList').innerHTML = quadrats.map(q => `
-      <article class="qcard">
-
+      <article class="qcard" draggable="true" data-qcard="${q.id}">
         <div class="qcard-head">
-          <input
-            class="qtitle"
-            data-title="${q.id}"
+          <input class="qtitle" data-title="${q.id}"
             value="${esc(q.name)}"
             title="Click to edit quadrat name"
-            aria-label="Quadrat name"
-          >
+            aria-label="Quadrat name">
 
           <div class="qcard-tools">
             <button class="iconbtn" data-config="${q.id}"
               title="Customize quadrat">⚙</button>
-
             <button class="iconbtn" data-png="${q.id}"
               title="Download this quadrat as PNG">⤓</button>
-
             ${quadrats.length > 1 ? `
               <button class="iconbtn" data-deleteq="${q.id}"
                 title="Delete quadrat">×</button>
@@ -761,48 +949,81 @@ button { font: inherit; cursor: pointer; }
           </div>
         </div>
 
-        <div
-          class="grid"
-          data-grid="${q.id}"
-          style="
-            grid-template-columns:repeat(${q.cols},minmax(0,1fr));
-            grid-template-rows:repeat(${q.rows},minmax(0,1fr));
-          "
-        >
-          ${Array.from({ length: q.rows * q.cols }, (_, i) => {
-            const records = q.cells[i] || [];
+        ${viewMode === 'grid' ? `
+          <div class="grid"
+            data-grid="${q.id}"
+            style="grid-template-columns:repeat(${q.cols},minmax(0,1fr));
+                   grid-template-rows:repeat(${q.rows},minmax(0,1fr));">
+            ${Array.from({length:q.rows*q.cols}, (_, i) => {
+              const records = q.cells[i] || [];
 
-            return `
-              <button class="cell" data-cell="${q.id}:${i}"
-                title="Click to edit this box">
+              return `
+                <button class="cell" data-cell="${q.id}:${i}"
+                  title="Click to edit this box">
+                  ${records.length
+                    ? records.map(record => {
+                        const species = getLegend(record.legendId);
+                        if (!species) return '';
 
-                ${records.length
-                  ? records.map(record => {
-                      const species = getLegend(record.legendId);
+                        return `
+                          <span class="specimen"
+                            title="${esc(species.name)}"
+                            style="color:${esc(species.color)}">
+                            ${symbol(species.shape)}
+                            ${Number(record.count) > 1
+                              ? `<small>${Number(record.count)}</small>`
+                              : ''}
+                          </span>
+                        `;
+                      }).join('')
+                    : '<span class="emptycell">＋</span>'}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        ` : `
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cell</th>
+                  <th>Species</th>
+                  <th>Individuals</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${Array.from({length:q.rows*q.cols}, (_, i) => {
+                  const records = q.cells[i] || [];
 
-                      if (!species) return '';
+                  return records.length
+                    ? records.map(record => {
+                        const species = getLegend(record.legendId);
+                        if (!species) return '';
 
-                      return `
-                        <span class="specimen"
-                          title="${esc(species.name)}"
-                          style="color:${esc(species.color)}">
-                          ${symbol(species.shape)}
-                          ${Number(record.count) > 1
-                            ? `<small>${Number(record.count)}</small>`
-                            : ''}
-                        </span>
-                      `;
-                    }).join('')
-                  : '<span class="emptycell">＋</span>'
-                }
-
-              </button>
-            `;
-          }).join('')}
-        </div>
+                        return `
+                          <tr>
+                            <td>${Math.floor(i/q.cols)+1}-${i%q.cols+1}</td>
+                            <td>${esc(species.name)}</td>
+                            <td>${Number(record.count)||0}</td>
+                          </tr>
+                        `;
+                      }).join('')
+                    : `
+                      <tr>
+                        <td>${Math.floor(i/q.cols)+1}-${i%q.cols+1}</td>
+                        <td colspan="2">No species recorded</td>
+                      </tr>
+                    `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
 
         <div class="gridnote">
-          Click a box to add, edit, or remove species.
+          ${viewMode === 'grid'
+            ? 'Click a box to add, edit, or remove species.'
+            : 'Species and individual counts recorded in this quadrat.'}
         </div>
 
         <div class="actions">
@@ -810,7 +1031,6 @@ button { font: inherit; cursor: pointer; }
             Customize Quadrat
           </button>
         </div>
-
       </article>
     `).join('');
 
@@ -843,8 +1063,71 @@ button { font: inherit; cursor: pointer; }
       };
     });
 
+    /* Drag and drop quadrat cards */
+    $('quadratList').querySelectorAll('[data-qcard]').forEach(card => {
+      card.addEventListener('dragstart', event => {
+        draggedQid = Number(card.dataset.qcard);
+        card.classList.add('dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', String(draggedQid));
+      });
+
+      card.addEventListener('dragover', event => {
+        event.preventDefault();
+        card.classList.add('drag-over');
+      });
+
+      card.addEventListener('dragleave', () => {
+        card.classList.remove('drag-over');
+      });
+
+      card.addEventListener('drop', event => {
+        event.preventDefault();
+        card.classList.remove('drag-over');
+
+        const targetId = Number(card.dataset.qcard);
+        if (!draggedQid || draggedQid === targetId) return;
+
+        const from = quadrats.findIndex(q => q.id === draggedQid);
+        const to = quadrats.findIndex(q => q.id === targetId);
+
+        if (from < 0 || to < 0) return;
+
+        const [moved] = quadrats.splice(from, 1);
+        quadrats.splice(to, 0, moved);
+
+        draggedQid = null;
+        renderQuadrats();
+      });
+
+      card.addEventListener('dragend', () => {
+        draggedQid = null;
+        card.classList.remove('dragging');
+        $('quadratList').querySelectorAll('.drag-over')
+          .forEach(el => el.classList.remove('drag-over'));
+      });
+    });
+
     save();
+    renderSummary();
   }
+
+  function updateViewButtons() {
+    $('gridView').classList.toggle('active', viewMode === 'grid');
+    $('tableView').classList.toggle('active', viewMode === 'table');
+  }
+
+  $('gridView').onclick = () => {
+    viewMode = 'grid';
+    updateViewButtons();
+    renderQuadrats();
+  };
+
+  $('tableView').onclick = () => {
+    viewMode = 'table';
+    updateViewButtons();
+    renderQuadrats();
+  };
 
   /* MODAL HELPERS */
 
@@ -867,58 +1150,42 @@ button { font: inherit; cursor: pointer; }
     `).join('');
   }
 
-  /* EDIT SPECIES LEGENDS */
+  /* EDIT SPECIES */
 
   function openLegends() {
-    draft = legends.map(item => ({ ...item }));
+    draft = legends.map(item => ({...item}));
     renderLegendEditor();
   }
 
   function renderLegendEditor() {
-    showModal(
-      'Edit Species Legends',
-      `
-        <p class="hint">
-          Edit the species name, symbol, and color. Deleting a species
-          removes it from every quadrat.
-        </p>
+    showModal('Edit Species Legends', `
+      <p class="hint">
+        Edit the species name, symbol, and color. Deleting a species
+        removes it from every quadrat.
+      </p>
 
-        <div id="legendRows">
-          ${draft.map(item => `
-            <div class="speciesrow" data-id="${item.id}">
-              <span class="preview" style="color:${esc(item.color)}">
-                ${symbol(item.shape)}
-              </span>
+      <div id="legendRows">
+        ${draft.map(item => `
+          <div class="speciesrow" data-id="${item.id}">
+            <span class="preview" style="color:${esc(item.color)}">
+              ${symbol(item.shape)}
+            </span>
+            <input class="lname" value="${esc(item.name)}"
+              placeholder="Species name">
+            <select class="lshape">${shapeOptions(item.shape)}</select>
+            <input class="lcolor" type="color" value="${esc(item.color)}">
+            <button class="iconbtn delLegend">×</button>
+          </div>
+        `).join('')}
+      </div>
 
-              <input class="lname" value="${esc(item.name)}"
-                placeholder="Species name">
-
-              <select class="lshape">
-                ${shapeOptions(item.shape)}
-              </select>
-
-              <input class="lcolor" type="color"
-                value="${esc(item.color)}">
-
-              <button class="iconbtn delLegend"
-                title="Delete species">×</button>
-            </div>
-          `).join('')}
-        </div>
-
-        <div class="actions">
-          <button id="addAnother" class="btn dark">
-            ＋ Add Another Species
-          </button>
-        </div>
-      `,
-      'legends'
-    );
+      <div class="actions">
+        <button id="addAnother" class="btn dark">＋ Add Another Species</button>
+      </div>
+    `, 'legends');
 
     $('modalbody').querySelectorAll('.speciesrow').forEach(row => {
-      const item = draft.find(
-        species => species.id === Number(row.dataset.id)
-      );
+      const item = draft.find(s => s.id === Number(row.dataset.id));
 
       row.querySelector('.lname').oninput = event => {
         item.name = event.target.value;
@@ -935,35 +1202,31 @@ button { font: inherit; cursor: pointer; }
       };
 
       row.querySelector('.delLegend').onclick = () => {
-        draft = draft.filter(species => species.id !== item.id);
+        draft = draft.filter(s => s.id !== item.id);
         renderLegendEditor();
       };
     });
 
     $('addAnother').onclick = () => {
       const id = nextSpeciesId++;
-
       draft.push({
         id,
         name: 'Species ' + id,
         shape: 'circle',
         color: colors[draft.length % colors.length]
       });
-
       renderLegendEditor();
     };
   }
 
-  /* EDIT MULTIPLE SPECIES IN A CELL */
+  /* EDIT CELL */
 
   function openCell(qid, index) {
     activeQid = qid;
     activeCell = index;
-
     const q = getQ(qid);
 
-    draft = (q.cells[index] || []).map(item => ({ ...item }));
-
+    draft = (q.cells[index] || []).map(item => ({...item}));
     renderCellEditor();
   }
 
@@ -980,11 +1243,11 @@ button { font: inherit; cursor: pointer; }
       `).join('');
 
     showModal(
-      `Edit ${q.name} · Cell ${Math.floor(activeCell / q.cols) + 1}-${activeCell % q.cols + 1}`,
+      `Edit ${q.name} · Cell ${Math.floor(activeCell/q.cols)+1}-${activeCell%q.cols+1}`,
       `
         <p class="hint">
           Add multiple species to the same box. Enter the number of
-          specimens for each species. Use × to remove an incorrect entry.
+          individuals for each species.
         </p>
 
         <div id="records" class="records">
@@ -997,35 +1260,18 @@ button { font: inherit; cursor: pointer; }
                   style="color:${species ? esc(species.color) : '#222'}">
                   ${species ? symbol(species.shape) : '?'}
                 </span>
-
-                <select class="recSpecies">
-                  ${options(record.legendId)}
-                </select>
-
-                <input class="recCount" type="number"
-                  min="1" step="1"
-                  value="${Math.max(1, Number(record.count) || 1)}"
-                  aria-label="Specimen count">
-
-                <button class="iconbtn delRecord"
-                  title="Remove this species">×</button>
+                <select class="recSpecies">${options(record.legendId)}</select>
+                <input class="recCount" type="number" min="1" step="1"
+                  value="${Math.max(1, Number(record.count)||1)}">
+                <button class="iconbtn delRecord">×</button>
               </div>
             `;
-          }).join('') || `
-            <div class="empty">
-              No species recorded in this box yet.
-            </div>
-          `}
+          }).join('') || '<div class="empty">No species recorded.</div>'}
         </div>
 
         <div class="actions">
-          <button id="addRecord" class="btn dark">
-            ＋ Add Species to This Box
-          </button>
-
-          <button id="clearRecord" class="btn light">
-            Clear This Box
-          </button>
+          <button id="addRecord" class="btn dark">＋ Add Species</button>
+          <button id="clearRecord" class="btn light">Clear This Box</button>
         </div>
       `,
       'cell'
@@ -1036,7 +1282,6 @@ button { font: inherit; cursor: pointer; }
 
       row.querySelector('.recSpecies').onchange = event => {
         draft[index].legendId = Number(event.target.value) || '';
-
         const species = getLegend(draft[index].legendId);
         const preview = row.querySelector('.preview');
 
@@ -1046,8 +1291,7 @@ button { font: inherit; cursor: pointer; }
 
       row.querySelector('.recCount').oninput = event => {
         draft[index].count = Math.max(
-          1,
-          Math.floor(Number(event.target.value) || 1)
+          1, Math.floor(Number(event.target.value)||1)
         );
       };
 
@@ -1058,11 +1302,7 @@ button { font: inherit; cursor: pointer; }
     });
 
     $('addRecord').onclick = () => {
-      draft.push({
-        legendId: legends[0]?.id || '',
-        count: 1
-      });
-
+      draft.push({legendId: legends[0]?.id || '', count: 1});
       renderCellEditor();
     };
 
@@ -1072,55 +1312,46 @@ button { font: inherit; cursor: pointer; }
     };
   }
 
-  /* CUSTOMIZE ONE QUADRAT */
+  /* QUADRAT SETTINGS */
 
   function openSettings(qid) {
     activeQid = qid;
-
     const q = getQ(qid);
 
-    showModal(
-      'Customize Quadrat',
-      `
+    showModal('Customize Quadrat', `
+      <div class="field">
+        <label>QUADRAT NAME</label>
+        <input id="settingName" maxlength="70" value="${esc(q.name)}">
+      </div>
+
+      <div class="fields" style="margin-top:12px">
         <div class="field">
-          <label>QUADRAT NAME</label>
-          <input id="settingName" maxlength="70"
-            value="${esc(q.name)}">
+          <label>ROWS (1–12)</label>
+          <select id="settingRows">
+            ${Array.from({length:12},(_,i)=>`
+              <option value="${i+1}" ${q.rows===i+1?'selected':''}>
+                ${i+1}
+              </option>
+            `).join('')}
+          </select>
         </div>
 
-        <div class="fields" style="margin-top:12px">
-          <div class="field">
-            <label>ROWS (1–12)</label>
-            <select id="settingRows">
-              ${Array.from({ length: 12 }, (_, i) => `
-                <option value="${i + 1}"
-                  ${q.rows === i + 1 ? 'selected' : ''}>
-                  ${i + 1}
-                </option>
-              `).join('')}
-            </select>
-          </div>
-
-          <div class="field">
-            <label>COLUMNS (1–12)</label>
-            <select id="settingCols">
-              ${Array.from({ length: 12 }, (_, i) => `
-                <option value="${i + 1}"
-                  ${q.cols === i + 1 ? 'selected' : ''}>
-                  ${i + 1}
-                </option>
-              `).join('')}
-            </select>
-          </div>
+        <div class="field">
+          <label>COLUMNS (1–12)</label>
+          <select id="settingCols">
+            ${Array.from({length:12},(_,i)=>`
+              <option value="${i+1}" ${q.cols===i+1?'selected':''}>
+                ${i+1}
+              </option>
+            `).join('')}
+          </select>
         </div>
+      </div>
 
-        <p class="hint">
-          Each quadrat can have its own name, number of rows, and number
-          of columns. Records outside a smaller grid will be removed.
-        </p>
-      `,
-      'settings'
-    );
+      <p class="hint">
+        Records outside a smaller grid will be removed.
+      </p>
+    `, 'settings');
   }
 
   /* SAVE EDITS */
@@ -1131,7 +1362,7 @@ button { font: inherit; cursor: pointer; }
 
       legends = draft
         .filter(item => item.name.trim())
-        .map(item => ({ ...item, name: item.name.trim() }));
+        .map(item => ({...item, name:item.name.trim()}));
 
       const removed = oldIds.filter(
         id => !legends.some(item => item.id === id)
@@ -1142,7 +1373,6 @@ button { font: inherit; cursor: pointer; }
           q.cells[index] = q.cells[index].filter(
             record => !removed.includes(Number(record.legendId))
           );
-
           if (!q.cells[index].length) delete q.cells[index];
         });
       });
@@ -1159,12 +1389,10 @@ button { font: inherit; cursor: pointer; }
         )
         .map(record => ({
           legendId: Number(record.legendId),
-          count: Math.max(1, Math.floor(Number(record.count) || 1))
+          count: Math.max(1, Math.floor(Number(record.count)||1))
         }));
 
-      if (!q.cells[activeCell].length) {
-        delete q.cells[activeCell];
-      }
+      if (!q.cells[activeCell].length) delete q.cells[activeCell];
     }
 
     if (mode === 'settings') {
@@ -1178,11 +1406,11 @@ button { font: inherit; cursor: pointer; }
 
       Object.entries(q.cells).forEach(([key, records]) => {
         const index = Number(key);
-        const row = Math.floor(index / q.cols);
-        const col = index % q.cols;
+        const row = Math.floor(index/q.cols);
+        const col = index%q.cols;
 
         if (row < rows && col < cols) {
-          cells[row * cols + col] = records;
+          cells[row*cols+col] = records;
         }
       });
 
@@ -1204,7 +1432,7 @@ button { font: inherit; cursor: pointer; }
 
     quadrats.push({
       id,
-      name: 'QUADRAT ' + (quadrats.length + 1) * 10,
+      name: 'QUADRAT ' + (quadrats.length+1)*10,
       rows: 4,
       cols: 3,
       cells: {}
@@ -1230,7 +1458,7 @@ button { font: inherit; cursor: pointer; }
   /* PNG EXPORT */
 
   function downloadPNG(selectedQuadrats) {
-    if (!selectedQuadrats || !selectedQuadrats.length) return;
+    if (!selectedQuadrats?.length) return;
 
     const qs = selectedQuadrats.filter(Boolean);
     if (!qs.length) return;
@@ -1243,227 +1471,210 @@ button { font: inherit; cursor: pointer; }
     const legendW = 165;
     const titleH = 45;
 
-    const maxCols = Math.max(...qs.map(q => q.cols));
-    const maxRows = Math.max(...qs.map(q => q.rows));
+    const maxCols = Math.max(...qs.map(q=>q.cols));
+    const maxRows = Math.max(...qs.map(q=>q.rows));
 
-    const cardW = maxCols * cellW + 20;
-    const cardH = titleH + maxRows * cellH + 20;
+    const cardW = maxCols*cellW+20;
+    const cardH = titleH+maxRows*cellH+20;
 
-    const cols = qs.length === 1 ? 1 : Math.min(3, qs.length);
-    const rows = Math.ceil(qs.length / cols);
+    const cols = qs.length===1 ? 1 : Math.min(3,qs.length);
+    const rows = Math.ceil(qs.length/cols);
 
-    const width =
-      margin + legendW + gap +
-      cols * cardW + (cols - 1) * gap + margin;
+    const width = margin+legendW+gap+
+      cols*cardW+(cols-1)*gap+margin;
 
-    const height =
-      margin + titleH +
-      Math.max(
-        legends.length * 24 + 30,
-        rows * cardH + (rows - 1) * gap
-      ) + margin;
+    const height = margin+titleH+
+      Math.max(legends.length*24+30,rows*cardH+(rows-1)*gap)+margin;
 
     const canvas = document.createElement('canvas');
-    canvas.width = width * scale;
-    canvas.height = height * scale;
+    canvas.width = width*scale;
+    canvas.height = height*scale;
 
     const ctx = canvas.getContext('2d');
-    ctx.scale(scale, scale);
+    ctx.scale(scale,scale);
 
     function drawBackground() {
-      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      const gradient = ctx.createLinearGradient(0,0,width,height);
+      gradient.addColorStop(0,'#dcebe7');
+      gradient.addColorStop(.5,'#f1e5e2');
+      gradient.addColorStop(1,'#eeeeda');
 
-      gradient.addColorStop(0, '#dcebe7');
-      gradient.addColorStop(0.5, '#f1e5e2');
-      gradient.addColorStop(1, '#eeeeda');
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle=gradient;
+      ctx.fillRect(0,0,width,height);
 
       ctx.save();
-      ctx.filter = `blur(${Math.max(1, Number($('blur').value))}px)`;
-      ctx.globalAlpha = 0.8;
+      ctx.filter=`blur(${Math.max(1,Number($('blur').value))}px)`;
+      ctx.globalAlpha=.8;
 
-      ctx.fillStyle = '#b8d9d3';
+      ctx.fillStyle='#b8d9d3';
       ctx.beginPath();
-      ctx.ellipse(100, 70, 150, 100, 0, 0, Math.PI * 2);
+      ctx.ellipse(100,70,150,100,0,0,Math.PI*2);
       ctx.fill();
 
-      ctx.fillStyle = '#d6b7b9';
+      ctx.fillStyle='#d6b7b9';
       ctx.beginPath();
-      ctx.ellipse(width - 100, height - 70, 170, 120, 0, 0, Math.PI * 2);
+      ctx.ellipse(width-100,height-70,170,120,0,0,Math.PI*2);
       ctx.fill();
 
       ctx.restore();
     }
 
     function drawContent() {
-      ctx.fillStyle = '#ffffffb8';
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle='#ffffffb8';
+      ctx.fillRect(0,0,width,height);
 
-      ctx.fillStyle = '#111';
-      ctx.textAlign = 'center';
-      ctx.font = 'bold 22px Arial';
+      ctx.fillStyle='#111';
+      ctx.textAlign='center';
+      ctx.font='bold 22px Arial';
+      ctx.fillText($('pageTitle').value || 'ORCANA QUADRAT',
+        width/2,margin+22);
 
-      ctx.fillText(
-        $('pageTitle').value || 'HERE NINYO IBUTANG INYO TITLE GUYS IF WHAT GROUP',
-        width / 2,
-        margin + 22
-      );
+      const legendY=margin+titleH;
+      ctx.textAlign='left';
+      ctx.font='bold 15px Arial';
+      ctx.fillText('LEGENDS:',margin,legendY);
 
-      const legendY = margin + titleH;
+      legends.forEach((item,index)=>{
+        const y=legendY+27+index*24;
+        ctx.fillStyle=item.color;
+        ctx.font='bold 19px Arial';
+        ctx.fillText(symbol(item.shape),margin,y);
 
-      ctx.textAlign = 'left';
-      ctx.font = 'bold 15px Arial';
-      ctx.fillStyle = '#111';
-      ctx.fillText('LEGENDS:', margin, legendY);
-
-      legends.forEach((item, index) => {
-        const y = legendY + 27 + index * 24;
-
-        ctx.fillStyle = item.color;
-        ctx.font = 'bold 19px Arial';
-        ctx.fillText(symbol(item.shape), margin, y);
-
-        ctx.fillStyle = '#171717';
-        ctx.font = '12px Arial';
-        ctx.fillText(item.name, margin + 28, y);
+        ctx.fillStyle='#171717';
+        ctx.font='12px Arial';
+        ctx.fillText(item.name,margin+28,y);
       });
 
-      qs.forEach((q, index) => {
-        const col = index % cols;
-        const row = Math.floor(index / cols);
+      qs.forEach((q,index)=>{
+        const col=index%cols;
+        const row=Math.floor(index/cols);
 
-        const x = margin + legendW + gap + col * (cardW + gap);
-        const y = margin + titleH + row * (cardH + gap);
+        const x=margin+legendW+gap+col*(cardW+gap);
+        const y=margin+titleH+row*(cardH+gap);
+        const gx=x+10;
+        const gy=y+20;
+        const gridW=q.cols*cellW;
+        const gridH=q.rows*cellH;
 
-        const gx = x + 10;
-        const gy = y + 20;
-        const gridW = q.cols * cellW;
-        const gridH = q.rows * cellH;
+        ctx.fillStyle='#ffffffa8';
+        ctx.fillRect(x,y,cardW,cardH);
 
-        ctx.fillStyle = '#ffffffa8';
-        ctx.fillRect(x, y, cardW, cardH);
+        ctx.textAlign='center';
+        ctx.fillStyle='#111';
+        ctx.font='bold 15px Arial';
+        ctx.fillText(q.name,x+cardW/2,y+13);
 
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#111';
-        ctx.font = 'bold 15px Arial';
-        ctx.fillText(q.name, x + cardW / 2, y + 13);
+        ctx.fillStyle='#ffffff90';
+        ctx.fillRect(gx,gy,gridW,gridH);
 
-        ctx.fillStyle = '#ffffff90';
-        ctx.fillRect(gx, gy, gridW, gridH);
+        ctx.strokeStyle='#171717';
+        ctx.lineWidth=1.5;
 
-        ctx.strokeStyle = '#171717';
-        ctx.lineWidth = 1.5;
-
-        for (let r = 0; r <= q.rows; r++) {
+        for(let r=0;r<=q.rows;r++){
           ctx.beginPath();
-          ctx.moveTo(gx, gy + r * cellH);
-          ctx.lineTo(gx + gridW, gy + r * cellH);
+          ctx.moveTo(gx,gy+r*cellH);
+          ctx.lineTo(gx+gridW,gy+r*cellH);
           ctx.stroke();
         }
 
-        for (let c = 0; c <= q.cols; c++) {
+        for(let c=0;c<=q.cols;c++){
           ctx.beginPath();
-          ctx.moveTo(gx + c * cellW, gy);
-          ctx.lineTo(gx + c * cellW, gy + gridH);
+          ctx.moveTo(gx+c*cellW,gy);
+          ctx.lineTo(gx+c*cellW,gy+gridH);
           ctx.stroke();
         }
 
-        Object.entries(q.cells).forEach(([key, records]) => {
-          const i = Number(key);
-          const r = Math.floor(i / q.cols);
-          const c = i % q.cols;
+        Object.entries(q.cells).forEach(([key,records])=>{
+          const i=Number(key);
+          const r=Math.floor(i/q.cols);
+          const c=i%q.cols;
 
-          records.forEach((record, j) => {
-            const species = getLegend(record.legendId);
-            if (!species) return;
+          records.forEach((record,j)=>{
+            const species=getLegend(record.legendId);
+            if(!species)return;
 
-            const perRow = Math.max(1, Math.floor((cellW - 8) / 24));
-            const sx = gx + c * cellW + 13 + (j % perRow) * 22;
-            const sy = gy + r * cellH + 23 + Math.floor(j / perRow) * 21;
+            const perRow=Math.max(1,Math.floor((cellW-8)/24));
+            const sx=gx+c*cellW+13+(j%perRow)*22;
+            const sy=gy+r*cellH+23+Math.floor(j/perRow)*21;
 
-            ctx.textAlign = 'center';
-            ctx.fillStyle = species.color;
-            ctx.font = 'bold 17px Arial';
-            ctx.fillText(symbol(species.shape), sx, sy);
+            ctx.textAlign='center';
+            ctx.fillStyle=species.color;
+            ctx.font='bold 17px Arial';
+            ctx.fillText(symbol(species.shape),sx,sy);
 
-            if (Number(record.count) > 1) {
-              ctx.fillStyle = '#222';
-              ctx.font = 'bold 9px Arial';
-              ctx.fillText(String(record.count), sx + 8, sy + 6);
+            if(Number(record.count)>1){
+              ctx.fillStyle='#222';
+              ctx.font='bold 9px Arial';
+              ctx.fillText(String(record.count),sx+8,sy+6);
             }
           });
         });
       });
 
-      const link = document.createElement('a');
-
-      link.download = (
-        qs.length === 1 ? qs[0].name : 'all-quadrats'
-      ).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.png';
-
-      link.href = canvas.toDataURL('image/png');
+      const link=document.createElement('a');
+      link.download=(qs.length===1?qs[0].name:'all-quadrats')
+        .toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.png';
+      link.href=canvas.toDataURL('image/png');
       link.click();
     }
 
-    if (bgData) {
-      const image = new Image();
+    if(bgData){
+      const image=new Image();
 
-      image.onload = () => {
+      image.onload=()=>{
         ctx.save();
-        ctx.filter = `blur(${Number($('blur').value)}px)`;
-        ctx.globalAlpha = 0.5;
-        ctx.drawImage(image, -20, -20, width + 40, height + 40);
+        ctx.filter=`blur(${Number($('blur').value)}px)`;
+        ctx.globalAlpha=.5;
+        ctx.drawImage(image,-20,-20,width+40,height+40);
         ctx.restore();
         drawContent();
       };
 
-      image.onerror = () => {
+      image.onerror=()=>{
         drawBackground();
         drawContent();
       };
 
-      image.src = bgData;
+      image.src=bgData;
     } else {
       drawBackground();
       drawContent();
     }
   }
 
-  /* BUTTON EVENTS */
+  /* BUTTONS */
 
-  $('addSpecies').onclick = openLegends;
-  $('editSpecies').onclick = openLegends;
+  $('addSpecies').onclick=openLegends;
+  $('editSpecies').onclick=openLegends;
+  $('downloadAll').onclick=()=>downloadPNG(quadrats);
+  $('resetAll').onclick=resetAll;
 
-  $('downloadAll').onclick = () => downloadPNG(quadrats);
+  $('close').onclick=closeModal;
+  $('cancel').onclick=closeModal;
 
-  $('close').onclick = closeModal;
-  $('cancel').onclick = closeModal;
-
-  $('modalback').onclick = event => {
-    if (event.target === $('modalback')) closeModal();
+  $('modalback').onclick=event=>{
+    if(event.target===$('modalback'))closeModal();
   };
 
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeModal();
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape')closeModal();
   });
 
-  $('pageTitle').oninput = save;
+  $('pageTitle').oninput=save;
 
-  $('blur').oninput = () => {
+  $('blur').oninput=()=>{
     applyBg();
     save();
   };
 
-  $('bgUpload').onchange = event => {
-    const file = event.target.files[0];
-    if (!file) return;
+  $('bgUpload').onchange=event=>{
+    const file=event.target.files[0];
+    if(!file)return;
 
-    const reader = new FileReader();
+    const reader=new FileReader();
 
-    reader.onload = () => {
-      bgData = reader.result;
+    reader.onload=()=>{
+      bgData=reader.result;
       applyBg();
       save();
     };
@@ -1471,11 +1682,10 @@ button { font: inherit; cursor: pointer; }
     reader.readAsDataURL(file);
   };
 
-  $('resetBg').onclick = () => {
-    bgData = '';
-    $('bgUpload').value = '';
-    $('blur').value = 18;
-
+  $('resetBg').onclick=()=>{
+    bgData='';
+    $('bgUpload').value='';
+    $('blur').value=18;
     applyBg();
     save();
   };
